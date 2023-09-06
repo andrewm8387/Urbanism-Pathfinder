@@ -1,0 +1,63 @@
+@startuml
+
+class AdjacencyList {
+  + AdjacencyList(Set<Node>, Set<Edge>): 
+  - AdjacencyList: ArrayList<ArrayList<Edge>>
+  + getEdges(int): ArrayList<Edge>
+  + addEdge(Edge): void
+}
+class BreadthFirstSearch {
+  + BreadthFirstSearch(): 
+  + BFS(AdjacencyList, Node, Node): List<Node>
+  + findShortestPath(AdjacencyList, Node, Node): List<Node>
+}
+class Edge {
+  + Edge(Node, Node): 
+  ~ attributes: Map<String, Object>
+  - start: Node
+  - end: Node
+  + getStart(): Node
+  + getAttributes(): Map<String, Object>
+  + getEnd(): Node
+}
+class Graph {
+  + Graph(Set<Node>, Set<Edge>): 
+  ~ Nodes: Set<Node>
+  ~ Edges: Set<Edge>
+  + addNode(Node): void
+  + addEdge(Edge): void
+}
+class Node {
+  + Node(int): 
+  + Node(int, Map<String, Object>): 
+  - attributes: Map<String, Object>
+  - id: int
+  + getId(): int
+  + getAttributes(): Map<String, Object>
+}
+interface ShortestPath << interface >> {
+  + findShortestPath(AdjacencyList, Node, Node): List<Node>
+}
+class pathfinderTest {
+  + pathfinderTest(): 
+  ~ edges: Set<Edge>
+  ~ start: Node
+  ~ nodes: Set<Node>
+  ~ graph: AdjacencyList
+  ~ end: Node
+  + setup(): void
+  + testBreadthFirstSearch(): void
+}
+
+AdjacencyList       -[#000000,dashed]->  Edge
+AdjacencyList       -[#000000,plain]-^  Graph
+BreadthFirstSearch  -[#000000,dashed]->  Node
+BreadthFirstSearch  -[#000000,dashed]-^  ShortestPath
+Edge               "1" *-[#000000,plain]-> "start\n1" Node
+Graph              "1" *-[#000000,plain]-> "Edges\n*" Edge
+Graph              "1" *-[#000000,plain]-> "Nodes\n*" Node
+ShortestPath        -[#000000,dashed]->  Node
+pathfinderTest     "1" *-[#000000,plain]-> "graph\n1" AdjacencyList
+pathfinderTest     "1" *-[#000000,plain]-> "edges\n*" Edge
+pathfinderTest     "1" *-[#000000,plain]-> "nodes\n*" Node
+@enduml
